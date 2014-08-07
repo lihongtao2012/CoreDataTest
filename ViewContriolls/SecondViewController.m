@@ -37,13 +37,11 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.title=@"员工名字";
-    NSLog(@"  %@",_managedObject);
-    
+    self.navigationItem.title=@"员工名字";    
     NSSet *set= _managedObject.employee;
     dataArray=[NSMutableArray arrayWithArray:[set allObjects]];
     [self.tableView reloadData];
-    NSLog(@"dataArray  %@",dataArray);
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
