@@ -37,16 +37,11 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.title=@"员工名字";    
+    self.navigationItem.title=@"员工名字";
     NSSet *set= _managedObject.employee;
     dataArray=[NSMutableArray arrayWithArray:[set allObjects]];
     [self.tableView reloadData];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (IBAction)addEmployee:(id)sender {
