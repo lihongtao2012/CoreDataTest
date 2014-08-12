@@ -40,12 +40,26 @@
     self.navigationItem.title=@"员工名字";
     NSSet *set= _managedObject.employee;
     dataArray=[NSMutableArray arrayWithArray:[set allObjects]];
+    
+    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"self.tools = '1'"];
+    NSArray *arr= [dataArray filteredArrayUsingPredicate:predicate];
+    
+    NSLog(@" arr  %@  ",arr);
+    
+    
+//    NSString *regex = @"^A.+e$";//以A 开头，以e 结尾的字符。
+//    NSPredicate *pre= [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+//    if([pre evaluateWithObject: @"Apple"]){
+//        NSLog(@"YES");
+//    }else{
+//        NSLog(@"NO");
+//    }
+//    
     [self.tableView reloadData];
     
 }
 
 - (IBAction)addEmployee:(id)sender {
-    
     
     UIView *addView=  [[NSBundle mainBundle]loadNibNamed:@"addView2" owner:self options:nil][0];
     addView.frame=self.view.window.frame;
@@ -66,7 +80,6 @@
     [self.tableView  insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:dataArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:dataArray.count-1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:NO];
     [[self.view.window.subviews lastObject] removeFromSuperview];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,7 +117,6 @@
     
     return cell;
 }
-
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {

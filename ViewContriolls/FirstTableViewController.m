@@ -9,6 +9,7 @@
 #import "FirstTableViewController.h"
 #import "SecondViewController.h"
 #import "Department.h"
+
 @interface FirstTableViewController ()
 
 {
@@ -26,6 +27,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+      
     }
     return self;
 }
@@ -36,8 +38,21 @@
     
     mangedObjectContext= ((AppDelegate *) ([UIApplication sharedApplication].delegate)).managedObjectContext;
     
+    
+    NSFetchRequest *request=[[NSFetchRequest alloc]init];
+    NSEntityDescription *entity=[NSEntityDescription entityForName:@"Employee" inManagedObjectContext:mangedObjectContext];
+    request.entity=entity;
+    
+    NSPredicate *predicate=[NSPredicate predicateWithFormat:@"(department.name = %@) AND (name LIKE[cd] 'pen?')",@"miaolianwangios"];
+    request.predicate=predicate;
+    
+    NSArray *arr=[mangedObjectContext executeFetchRequest:request error:nil];
+    
+    NSLog(@" arrr  %@",arr);
+    
+
     NSFetchRequest *fetchRequest=[NSFetchRequest fetchRequestWithEntityName:@"Department"];
-   NSArray *fetchArray= [mangedObjectContext executeFetchRequest:fetchRequest error:nil];
+    NSArray *fetchArray= [mangedObjectContext executeFetchRequest:fetchRequest error:nil];
     
     dataArray=[NSMutableArray arrayWithArray:fetchArray];
     
@@ -65,7 +80,6 @@
     mangedObject.idCard=idCardTF.text;
     
     [dataArray addObject:mangedObject]; //数据源添加好.
-    
     [mangedObjectContext save:nil];
     
     [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:dataArray.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -94,8 +108,6 @@
     // Return the number of rows in the section.
     return dataArray.count;
 }
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellIdentifier" forIndexPath:indexPath];
@@ -113,9 +125,6 @@
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-
-
-
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {

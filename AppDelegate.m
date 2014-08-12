@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import"MKNetworkKit.h"
 
 @implementation AppDelegate
 
@@ -16,10 +17,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+    [self creatRequest];
     // Override point for customization after application launch.
     return YES;
 }
 
+-(void)creatRequest
+{
+  MKNetworkEngine *engine=[[MKNetworkEngine alloc]initWithHostName:@"api.miaolianwang.com"];
+  MKNetworkOperation *netWork =  [engine operationWithPath:@"android/gettime" params:nil httpMethod:@"POST"];
+    [netWork addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        NSLog(@"  result = %@",[completedOperation responseJSON]);
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+        NSLog(@"  error = %@",[error.userInfo objectForKey:@"NSErrorFailingURLKey"]);
+    }];
+    [engine enqueueOperation:netWork];
+}
 #pragma mark - Core Data stack
 
 // Returns the managed object context for the application.
